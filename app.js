@@ -4,7 +4,7 @@ const app = express();
 
 // Home address
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from a hardened container" });
+  res.json({ message: "Hello from the GitOps pipeline v2" });
 });
 
 // Health check, used by Docker and Kubernetes

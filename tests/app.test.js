@@ -5,7 +5,7 @@ describe("GET /", () => {
   test("returns the welcome message", async () => {
     const res = await request(app).get("/");
     expect(res.status).toBe(200);
-    expect(res.body.message).toBe("Hello from a hardened container");
+    expect(res.body.message).toBe("Hello from the GitOps pipeline v2");
   });
 });
 

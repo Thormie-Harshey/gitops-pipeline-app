@@ -50,3 +50,36 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+
+  update-config:
+    name: Update staging tag in config repo
+    needs: build-push
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out config repo
+        uses: actions/checkout@v4
+        with:
+          repository: Thormie-Harshey/gitops-pipeline-config
+          token: ${{ secrets.CONFIG_REPO_TOKEN }}
+
+      - name: Set new image tag in staging overlay
+        working-directory: overlays/staging
+        run: kustomize edit set image ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add overlays/staging/kustomization.yaml
+          if git diff --cached --quiet; then
+            echo "Tag already set, nothing to commit"
+            exit 0
+          fi
+          git commit -m "staging: deploy gitops-pipeline-app@${GITHUB_SHA::7}" \
+            -m "Source: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+          for attempt in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1

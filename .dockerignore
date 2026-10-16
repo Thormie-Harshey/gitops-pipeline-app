@@ -1,0 +1,42 @@
+# Dependencies (the image installs its own fresh copy)
+node_modules
+npm-debug.log*
+
+# Version control
+.git
+.gitignore
+
+# Secrets and local settings
+.env
+.env.*
+*.pem
+*.key
+
+# Tests and test output
+test
+tests
+__tests__
+*.test.js
+*.spec.js
+coverage
+
+# Logs
+*.log
+logs
+
+# Editor and computer clutter
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Docker's own files (the image does not need its own recipe)
+Dockerfile
+.dockerignore
+
+# Docs and CI config
+*.md
+.github
+
+# Evidence for the write-up, not needed in the image
+screenshots

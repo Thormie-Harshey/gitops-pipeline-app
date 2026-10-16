@@ -1,0 +1,37 @@
+{
+  "name": "gitops-pipeline-app",
+  "version": "1.0.0",
+  "description": "Express app whose CI builds, tests and pushes to GHCR, then updates the GitOps config repo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint .",
+    "format-check": "prettier --check .",
+    "test": "jest --coverage"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "jest": "^30.5.2",
+    "prettier": "^3.9.10",
+    "supertest": "^7.3.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "app.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 70,
+        "statements": 70,
+        "functions": 70,
+        "branches": 70
+      }
+    }
+  }
+}
